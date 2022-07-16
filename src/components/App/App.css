@@ -1,0 +1,21 @@
+.App {
+  max-width: 1280px;
+  margin: 0 auto;
+  color: white;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+}
+a {
+  text-decoration: none;
+  color: white;
+}
+
+.link {
+  transition: 0.2s ease-in;
+  cursor: pointer;
+}
+
+.link:hover {
+  opacity: 0.6;
+}
