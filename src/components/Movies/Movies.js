@@ -10,7 +10,7 @@ const Movies = () => {
       <SearchForm />
       {/* <Preloader /> */}
       <MoviesCardList />
-      <button className="movies-list__more-button link">Ещё</button>
+      <button className="movies-list__more-button link_button">Ещё</button>
     </main>
   );
 };

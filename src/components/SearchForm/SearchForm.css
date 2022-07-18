@@ -37,12 +37,15 @@
   border: none;
   font-weight: 400;
   font-size: 18px;
-  line-height: 20px;
+  line-height: 22px;
   color: #8b8b8b;
+  box-sizing: border-box;
+  padding-bottom: 2px;
 }
 
 .search-form__input:focus {
-  border: none;
+  /* border: none; */
+  border-bottom: 1px solid #8b8b8b;
   outline: 0;
 }
 

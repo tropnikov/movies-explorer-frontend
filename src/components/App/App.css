@@ -2,7 +2,7 @@
   max-width: 1280px;
   margin: 0 auto;
   color: white;
-  font-family: "Inter";
+  font-family: "Inter", sans-serif;
   font-style: normal;
   font-weight: 400;
 }
@@ -17,5 +17,14 @@ a {
 }
 
 .link:hover {
-  opacity: 0.6;
+  opacity: 0.7;
+}
+
+.link_button {
+  transition: 0.2s ease-in;
+  cursor: pointer;
+}
+
+.link_button:hover {
+  opacity: 0.8;
 }

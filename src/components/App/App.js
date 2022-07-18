@@ -17,22 +17,23 @@ const App = () => {
   const toggleMenu = () => {
     setMenuOpened(!isMenuOpened);
   };
-  console.log(isMenuOpened);
   return (
     <div className="App">
       <Header handleShowMenu={toggleMenu} />
-      <Menu handleOpenMenu={toggleMenu} isMenuOpened={isMenuOpened} />
-      <Routes>
-        <Route path="/" element={<Main />} />
-        <Route path="/movies" element={<Movies />} />
-        <Route path="/saved-movies" element={<SavedMovies />} />
-        <Route path="/profile" element={<Profile />} />
+      <main className="page-content">
+        <Menu handleOpenMenu={toggleMenu} isMenuOpened={isMenuOpened} />
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route path="/movies" element={<Movies />} />
+          <Route path="/saved-movies" element={<SavedMovies />} />
+          <Route path="/profile" element={<Profile />} />
 
-        <Route path="/signup" element={<Register />} />
+          <Route path="/signup" element={<Register />} />
 
-        <Route path="/signin" element={<Login />} />
-        <Route path="/*" element={<NotFound />} />
-      </Routes>
+          <Route path="/signin" element={<Login />} />
+          <Route path="/*" element={<NotFound />} />
+        </Routes>
+      </main>
       <Footer />
     </div>
   );

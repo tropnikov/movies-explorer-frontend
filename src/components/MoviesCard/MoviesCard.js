@@ -13,9 +13,9 @@ const MoviesCard = () => {
       <div className="movie-card__content">
         <div className="movie-card__text-wrap">
           <h2 className="movie-card__title">33 слова о дизайне</h2>
-          <button className="icon movie-card__save link"></button>
-          {/* <button className="icon movie-card__unsave link"></button> */}
-          {/* <button className="icon movie-card__delete link"></button> */}
+          <button className="icon movie-card__save link_button"></button>
+          {/* <button className="icon movie-card__unsave link_button"></button> */}
+          {/* <button className="icon movie-card__delete link_button"></button> */}
         </div>
         <p className="movie-card__subtitle">1ч42м</p>
       </div>

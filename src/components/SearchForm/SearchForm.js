@@ -7,7 +7,7 @@ const SearchForm = () => {
       <div className="search-form__container">
         <form className="search-form__form">
           <input required className="search-form__input" placeholder="Фильм" />
-          <button type="submit" className="search-form__button">
+          <button type="submit" className="search-form__button link_button">
             Поиск
           </button>
         </form>

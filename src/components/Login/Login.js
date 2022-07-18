@@ -33,7 +33,7 @@ const Login = () => {
           required
         />
         <span className="login-form__error-text">Что-то пошло не так...</span>
-        <button className="login-form__button link" type="submit">
+        <button className="login-form__button link_button" type="submit">
           Войти
         </button>
         <span className="login-form__text">
