@@ -13,6 +13,7 @@
   display: flex;
   flex-wrap: nowrap;
   margin-bottom: 26px;
+  position: relative;
 }
 
 .search-form__form {
@@ -41,6 +42,15 @@
   color: #8b8b8b;
   box-sizing: border-box;
   padding-bottom: 2px;
+}
+
+.search-form__error {
+  position: absolute;
+  bottom: -23px;
+  color: #ee3465;
+  font-size: 12px;
+  font-weight: 400px;
+  line-height: 14px;
 }
 
 .search-form__input:focus {

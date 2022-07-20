@@ -2,12 +2,14 @@ import React from 'react';
 import './MoviesCardList.css';
 import MovieCard from '../MoviesCard/MoviesCard';
 
-const MoviesCardList = () => {
+const MoviesCardList = ({ movies }) => {
   return (
     <section className="movies-list">
       <ul className="movies-list__cards">
-        <MovieCard />
-        <MovieCard />
+        {movies.map((item) => (
+          <MovieCard movie={item} key={item.id} />
+        ))}
+        {/* <MovieCard /> */}
         {/* <MovieCard />
         <MovieCard />
         <MovieCard /> */}
@@ -23,6 +25,7 @@ const MoviesCardList = () => {
         <MovieCard />
         <MovieCard /> */}
       </ul>
+      <button className="movies-list__more-button link_button">Ещё</button>
     </section>
   );
 };
