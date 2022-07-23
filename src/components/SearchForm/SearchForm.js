@@ -1,22 +1,31 @@
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import './SearchForm.css';
 
-const SearchForm = ({ handleSearch }) => {
-  const [query, setQuery] = useState('');
+const SearchForm = ({ handleSearch, searchProp }) => {
+  const [search, setSearch] = useState(searchProp);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    setSearch(searchProp);
+  }, [searchProp]);
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    if (!query) {
+    if (!search.query) {
       setError('Нужно ввести ключевое слово');
     } else {
       setError('');
-      handleSearch(query);
+      handleSearch(search);
+      localStorage.setItem('search', JSON.stringify(search));
     }
   };
 
   const handleSearchInputChange = (evt) => {
-    setQuery(evt.target.value);
+    setSearch({ ...search, query: evt.target.value });
+  };
+
+  const handleChangeCheckbox = (evt) => {
+    setSearch({ ...search, isShort: evt.target.checked });
   };
 
   return (
@@ -31,6 +40,7 @@ const SearchForm = ({ handleSearch }) => {
             name="search-form-input"
             minLength="1"
             onChange={handleSearchInputChange}
+            value={search.query}
             placeholder="Фильм"
           />
           <button type="submit" className="search-form__button link_button">
@@ -40,7 +50,12 @@ const SearchForm = ({ handleSearch }) => {
         {error && <span className="search-form__error">{error}</span>}
       </div>
       <div className="search-form__toggle-container">
-        <input type="checkbox" className="search-from__toggle" />
+        <input
+          type="checkbox"
+          className="search-from__toggle"
+          onChange={handleChangeCheckbox}
+          checked={search.isShort}
+        />
         <p className="search-form__toggle-text">Короткометражки</p>
       </div>
     </section>

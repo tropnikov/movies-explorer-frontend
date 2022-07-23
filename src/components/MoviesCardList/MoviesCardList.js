@@ -2,7 +2,11 @@ import React from 'react';
 import './MoviesCardList.css';
 import MovieCard from '../MoviesCard/MoviesCard';
 
-const MoviesCardList = ({ movies }) => {
+const MoviesCardList = ({
+  movies,
+  isShowMoreButtonShown,
+  handleShowMoreButton,
+}) => {
   return (
     <section className="movies-list">
       <ul className="movies-list__cards">
@@ -25,7 +29,14 @@ const MoviesCardList = ({ movies }) => {
         <MovieCard />
         <MovieCard /> */}
       </ul>
-      <button className="movies-list__more-button link_button">Ещё</button>
+      {isShowMoreButtonShown && (
+        <button
+          className="movies-list__more-button link_button"
+          onClick={handleShowMoreButton}
+        >
+          Ещё
+        </button>
+      )}
     </section>
   );
 };

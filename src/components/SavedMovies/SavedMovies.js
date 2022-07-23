@@ -6,11 +6,11 @@ import './SavedMovies.css';
 
 const SavedMovies = () => {
   return (
-    <main className="saved-movies">
+    <section className="saved-movies">
       <SearchForm />
       {/* <Preloader /> */}
       <MoviesCardList />
-    </main>
+    </section>
   );
 };
 
