@@ -1,14 +1,17 @@
 import React from 'react';
 import './MoviesCard.css';
-import shot from '../../images/movie-pic-sample.jpg';
+// import shot from '../../images/movie-pic-sample.jpg';
 
 const MoviesCard = ({ movie }) => {
+  const handleMovieCardClick = () => {
+    window.open(movie.trailerLink, '_blank');
+  };
   return (
-    <li className="movie-card">
+    <li className="movie-card" onClick={handleMovieCardClick}>
       <img
         className="movie-card__image"
         alt="Изображение фрагмента из фильма"
-        src={shot}
+        src={'https://api.nomoreparties.co' + movie.image.url}
       />
       <div className="movie-card__content">
         <div className="movie-card__text-wrap">
