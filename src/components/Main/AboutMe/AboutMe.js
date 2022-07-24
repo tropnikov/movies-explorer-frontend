@@ -1,6 +1,6 @@
 import React from 'react';
 import './AboutMe.css';
-import photo from '../../images/Photo_cropped.JPG';
+import photo from '../../../images/Photo_cropped.JPG';
 
 const AboutMe = () => {
   return (
@@ -24,7 +24,7 @@ const AboutMe = () => {
           <div>
             <a
               className="about__link link"
-              href="https://www.linkedin.com/in/maksim-tropnikov/"
+              href="src/components/Main/AboutMe/AboutMe"
               target="_blank"
               rel="noreferrer"
             >
@@ -32,7 +32,7 @@ const AboutMe = () => {
             </a>
             <a
               className="about__link link"
-              href="https://github.com/tropnikov/"
+              href="src/components/Main/AboutMe/AboutMe"
               target="_blank"
               rel="noreferrer"
             >

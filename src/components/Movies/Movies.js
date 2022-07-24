@@ -1,43 +1,31 @@
 import { React, useEffect, useState } from 'react';
 
 import mainApi from '../../utils/MainApi';
-import moviesApi from '../../utils/MoviesApi';
-import MoviesCardList from '../MoviesCardList/MoviesCardList';
-import Preloader from '../Preloader/Preloader';
-import SearchForm from '../SearchForm/SearchForm';
+// import moviesApi from '../../utils/MoviesApi';
+import MoviesCardList from './MoviesCardList/MoviesCardList';
+import Preloader from './Preloader/Preloader';
+import SearchForm from './SearchForm/SearchForm';
 import './Movies.css';
 
-const Movies = ({ savedMovies, setSavedMovies }) => {
-  const [movies, setMovies] = useState([]);
-  const [searchedMovies, setSearchedMovies] = useState([]);
-  const [search, setSearch] = useState({ query: '', isShort: false });
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
+const Movies = ({
+  searchMovies,
+  savedMovies,
+  setSavedMovies,
+  isLoading,
+  searchedMovies,
+  search,
+  setSearch,
+  error,
+}) => {
+  // const [searchedMovies, setSearchedMovies] = useState([]);
+  // const [search, setSearch] = useState({ query: '', isShort: false });
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [error, setError] = useState('');
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [extraMovies, setExtraMovies] = useState(null);
   const [limitMovies, setLimitMovies] = useState(null);
   const [shownMovies, setShownMovies] = useState([]);
   const [isShowMoreButtonShown, setIsShowMoreButtonShown] = useState(false);
-
-  const searchMovies = (req) => {
-    setIsLoading(true);
-    moviesApi
-      .getMovies()
-      .then((res) => {
-        setMovies(res);
-      })
-      .catch((err) => {
-        setError(
-          'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз'
-        );
-        console.log(err);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-    setSearch(req);
-    localStorage.setItem('search', JSON.stringify(req));
-  };
 
   const handleDeleteMovie = (movieId) => {
     mainApi
@@ -52,9 +40,9 @@ const Movies = ({ savedMovies, setSavedMovies }) => {
       .catch((err) => console.log(err));
   };
 
-  const handleSaveMovie = (movie, userId) => {
+  const handleSaveMovie = (movie) => {
     mainApi
-      .saveMovie(movie, userId)
+      .saveMovie(movie)
       .then((res) => {
         const newSavedMovies = [...savedMovies, res];
         setSavedMovies(newSavedMovies);
@@ -66,36 +54,6 @@ const Movies = ({ savedMovies, setSavedMovies }) => {
   };
 
   // effects
-  useEffect(() => {
-    if (movies.length) {
-      const filteredMovies = movies.filter((item) => {
-        return (
-          (item?.nameRU
-            ?.toLowerCase()
-            .includes(search?.query?.toLowerCase().trim()) ||
-            item?.nameEN
-              ?.toLowerCase()
-              .includes(search?.query?.toLowerCase().trim())) &&
-          (search.isShort ? item.duration <= 40 : true)
-        );
-      });
-      setSearchedMovies(filteredMovies);
-      localStorage.setItem('searchedMovies', JSON.stringify(filteredMovies));
-      if (filteredMovies.length === 0) {
-        setError('Ничего не найдено');
-      } else setError('');
-    }
-  }, [movies, search.query]);
-
-  useEffect(() => {
-    if (localStorage.getItem('searchedMovies')) {
-      setSearchedMovies(JSON.parse(localStorage.getItem('searchedMovies')));
-    }
-    if (localStorage.getItem('search')) {
-      setSearch(JSON.parse(localStorage.getItem('search')));
-    }
-  }, []);
-
   useEffect(() => {
     const resizeHandler = () => {
       setTimeout(() => setScreenWidth(window.innerWidth), 500);
@@ -141,7 +99,11 @@ const Movies = ({ savedMovies, setSavedMovies }) => {
 
   return (
     <section className="movies">
-      <SearchForm handleSearch={searchMovies} searchProp={search} />
+      <SearchForm
+        handleSearch={searchMovies}
+        search={search}
+        setSearch={setSearch}
+      />
       {isLoading ? (
         <Preloader />
       ) : error ? (

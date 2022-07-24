@@ -48,7 +48,7 @@ class MainApi {
   }
 
   logout() {
-    return fetch(this.#baseUrl + 'signout', {
+    return fetch(this.#baseUrl + '/signout', {
       method: 'POST',
       credentials: 'include',
       headers: this.#headers,
@@ -80,7 +80,7 @@ class MainApi {
     }).then(this.#handleResponse);
   }
 
-  saveMovie(movie, userId) {
+  saveMovie(movie) {
     return fetch(this.#baseUrl + '/movies', {
       method: 'POST',
       credentials: 'include',
@@ -98,7 +98,7 @@ class MainApi {
         movieId: movie.id,
         nameRU: movie.nameRU || ' ',
         nameEN: movie.nameEN || ' ',
-        owner: userId,
+        // owner: userId,
       }),
     }).then(this.#handleResponse);
   }

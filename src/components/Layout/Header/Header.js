@@ -4,9 +4,9 @@ import { useRoutes } from 'react-router-dom';
 import LandingHeader from './LandingHeader/LandingHeader';
 import MainHeader from './MainHeader/MainHeader';
 
-const Header = ({ handleShowMenu }) => {
+const Header = ({ isLoggedIn, handleShowMenu }) => {
   return useRoutes([
-    { path: '/', element: <LandingHeader /> },
+    { path: '/', element: isLoggedIn ? <MainHeader handleOpenMenu={handleShowMenu} /> : <LandingHeader /> },
     {
       path: '/movies',
       element: <MainHeader handleOpenMenu={handleShowMenu} />,

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { CurrentUserContext } from '../../context/CurrentUserContext';
+import { CurrentUserContext } from '../../../context/CurrentUserContext';
 import './MoviesCard.css';
 // import shot from '../../images/movie-pic-sample.jpg';
 

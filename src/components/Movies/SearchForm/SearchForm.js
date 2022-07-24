@@ -1,15 +1,15 @@
-import { React, useState, useEffect } from 'react';
+import { React, useState } from 'react';
 // import { useLocation } from 'react-router-dom';
 import './SearchForm.css';
 
-const SearchForm = ({ handleSearch, searchProp }) => {
+const SearchForm = ({ handleSearch, search, setSearch }) => {
   // let location = useLocation();
-  const [search, setSearch] = useState(searchProp);
+  // const [search, setSearch] = useState(searchProp);
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    setSearch(searchProp);
-  }, [searchProp]);
+  // useEffect(() => {
+  //   setSearch(searchProp);
+  // }, [searchProp]);
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
@@ -48,7 +48,7 @@ const SearchForm = ({ handleSearch, searchProp }) => {
             minLength="1"
             onChange={handleSearchInputChange}
             value={search.query}
-            placeholder="Фильм"
+            placeholder="Фильм или Movie"
           />
           <button type="submit" className="search-form__button link_button">
             Поиск

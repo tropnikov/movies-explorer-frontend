@@ -28,3 +28,11 @@ a {
 .link_button:hover {
   opacity: 0.8;
 }
+
+.preloader__wrap {
+  height: 100vh;
+  /* display: flex; */
+  width: 100vw;
+  /* justify-content: center; */
+  /* align-items: center; */
+}

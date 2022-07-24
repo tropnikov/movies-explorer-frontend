@@ -1,7 +1,7 @@
 import { React, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useFormWithValidation } from '../../utils/useFormWithValidation';
-import Logo from '../Logo/Logo';
+import { useFormWithValidation } from '../../../utils/useFormWithValidation';
+import Logo from '../../Layout/Logo/Logo';
 import './Login.css';
 
 const Login = ({ handleLogin, error, setError }) => {

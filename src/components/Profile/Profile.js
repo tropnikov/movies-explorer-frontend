@@ -3,7 +3,13 @@ import { useFormWithValidation } from '../../utils/useFormWithValidation';
 import { CurrentUserContext } from '../../context/CurrentUserContext';
 import './Profile.css';
 
-const Profile = ({ handleEditProfile, handleLogout, error, setError }) => {
+const Profile = ({
+  handleEditProfile,
+  handleLogout,
+  error,
+  setError,
+  success,
+}) => {
   const { values, handleChange, errors, isValid, setValues } =
     useFormWithValidation();
 
@@ -24,7 +30,7 @@ const Profile = ({ handleEditProfile, handleLogout, error, setError }) => {
 
   useEffect(() => {
     setValues({ name, email });
-  }, []);
+  }, [name, email]);
 
   useEffect(() => {
     setError('');
@@ -72,6 +78,11 @@ const Profile = ({ handleEditProfile, handleLogout, error, setError }) => {
           {error && (
             <span className="profile-form__error-text profile-form__error-text_server">
               {error}
+            </span>
+          )}
+          {success && (
+            <span className="profile-form__success-text profile-form__success-text_server">
+              {success}
             </span>
           )}
         </section>

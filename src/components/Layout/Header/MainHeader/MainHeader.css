@@ -67,7 +67,7 @@
   height: 30px;
   background: #313131;
   border-radius: 6px;
-  background-image: url(../../../images/account.svg);
+  background-image: url(../../../../images/account.svg);
   background-repeat: no-repeat;
   background-position: center;
 }
@@ -90,7 +90,7 @@
   .header__menu-button {
     display: block;
     background-color: inherit;
-    background-image: url("../../../images/Group-501.svg");
+    background-image: url("../../../../images/Group-501.svg");
     background-repeat: no-repeat;
     background-position: center;
   }
