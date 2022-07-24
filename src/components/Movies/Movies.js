@@ -1,11 +1,13 @@
-import { React, useState, useEffect } from 'react';
-import './Movies.css';
-import SearchForm from '../SearchForm/SearchForm';
-import Preloader from '../Preloader/Preloader';
-import MoviesCardList from '../MoviesCardList/MoviesCardList';
-import moviesApi from '../../utils/MoviesApi';
+import { React, useEffect, useState } from 'react';
 
-const Movies = () => {
+import mainApi from '../../utils/MainApi';
+import moviesApi from '../../utils/MoviesApi';
+import MoviesCardList from '../MoviesCardList/MoviesCardList';
+import Preloader from '../Preloader/Preloader';
+import SearchForm from '../SearchForm/SearchForm';
+import './Movies.css';
+
+const Movies = ({ savedMovies, setSavedMovies }) => {
   const [movies, setMovies] = useState([]);
   const [searchedMovies, setSearchedMovies] = useState([]);
   const [search, setSearch] = useState({ query: '', isShort: false });
@@ -34,6 +36,33 @@ const Movies = () => {
         setIsLoading(false);
       });
     setSearch(req);
+    localStorage.setItem('search', JSON.stringify(req));
+  };
+
+  const handleDeleteMovie = (movieId) => {
+    mainApi
+      .deleteMovie(movieId)
+      .then(() => {
+        const filteredMovies = savedMovies.filter(
+          (item) => item._id !== movieId
+        );
+        setSavedMovies(filteredMovies);
+        localStorage.setItem('savedMovies', JSON.stringify(filteredMovies));
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const handleSaveMovie = (movie, userId) => {
+    mainApi
+      .saveMovie(movie, userId)
+      .then((res) => {
+        const newSavedMovies = [...savedMovies, res];
+        setSavedMovies(newSavedMovies);
+        localStorage.setItem('savedMovies', JSON.stringify(newSavedMovies));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   // effects
@@ -41,8 +70,13 @@ const Movies = () => {
     if (movies.length) {
       const filteredMovies = movies.filter((item) => {
         return (
-          item?.nameRU?.toLowerCase().includes(search?.query?.toLowerCase()) ||
-          item?.nameEN?.toLowerCase().includes(search?.query?.toLowerCase())
+          (item?.nameRU
+            ?.toLowerCase()
+            .includes(search?.query?.toLowerCase().trim()) ||
+            item?.nameEN
+              ?.toLowerCase()
+              .includes(search?.query?.toLowerCase().trim())) &&
+          (search.isShort ? item.duration <= 40 : true)
         );
       });
       setSearchedMovies(filteredMovies);
@@ -75,8 +109,6 @@ const Movies = () => {
   useEffect(() => {
     switch (true) {
       case screenWidth > 1024:
-        console.log('In switch extraMovies:', extraMovies);
-        console.log(' In switch limitMovies:', limitMovies);
         setExtraMovies(4);
         setLimitMovies(12);
         break;
@@ -93,17 +125,15 @@ const Movies = () => {
         setLimitMovies(5);
         break;
     }
-    console.log('screenWidth:', screenWidth);
-    console.log('limitMovies:', limitMovies);
-  }, [screenWidth]);
+  }, [screenWidth, searchedMovies]);
 
   useEffect(() => {
-    setShownMovies(searchedMovies.slice(0, limitMovies));
+    const newShownMovies = searchedMovies.slice(0, limitMovies);
+    setShownMovies(newShownMovies);
     if (shownMovies.length < searchedMovies.length) {
       setIsShowMoreButtonShown(true);
     } else setIsShowMoreButtonShown(false);
-    console.log('shownMovies:', shownMovies);
-  }, [limitMovies, searchedMovies]);
+  }, [limitMovies, searchedMovies, isShowMoreButtonShown]);
 
   const handleShowMore = () => {
     setLimitMovies((prevValue) => (prevValue += extraMovies));
@@ -122,6 +152,9 @@ const Movies = () => {
             movies={shownMovies}
             handleShowMoreButton={handleShowMore}
             isShowMoreButtonShown={isShowMoreButtonShown}
+            onDeleteMovie={handleDeleteMovie}
+            onSaveMovie={handleSaveMovie}
+            savedMovies={savedMovies}
           />
         </>
       )}

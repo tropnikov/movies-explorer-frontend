@@ -1,60 +1,6 @@
-import { serverUrl } from './utils.js';
+const BASE_URL = 'https://api.tma-beatfilms.nomoreparties.sbs';
 
-// eslint-disable-next-line
-export const BASE_URL =
-  process.env.NODE_ENV === 'development'
-    ? 'http://localhost:3001'
-    : 'https://api.tma.nomoredomains.work';
-
-const handleResponse = (response) => {
-  return response.ok
-    ? response.json()
-    : Promise.reject(`Ошибка: ${response.status}`, response);
-};
-
-export const register = (email, password) => {
-  return fetch(`${BASE_URL}/signup`, {
-    method: 'POST',
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ email, password }),
-  }).then(handleResponse);
-};
-
-export const login = (email, password) => {
-  return fetch(`${BASE_URL}/signin`, {
-    method: 'POST',
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ email, password }),
-  }).then(handleResponse);
-};
-
-export const logout = () => {
-  return fetch(`${BASE_URL}/signout`, {
-    method: 'POST',
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }).then(handleResponse);
-};
-
-// export const checkTokenValidity = (token) => {
-//   return fetch(`${BASE_URL}/users/me`, {
-//     method: 'GET',
-//     headers: {
-//       'Content-Type': 'application/json',
-//       Authorization: `Bearer ${token}`,
-//     },
-//   }).then(handleResponse);
-// };
-
-class Api {
+class MainApi {
   #baseUrl;
   #headers;
 
@@ -64,93 +10,114 @@ class Api {
   }
 
   #handleResponse = (response) => {
+    // console.log(response);
+    // response.json();
     return response.ok
       ? response.json()
-      : Promise.reject(`Ошибка: ${response.status}`);
+      : Promise.reject(
+          `Ошибка: ${response.status}
+          ${response.statusText}`
+        );
   };
 
-  getInitialCards() {
-    return fetch(this.#baseUrl + '/cards', {
-      method: 'GET',
-      credentials: 'include',
-      headers: this.#headers,
-    }).then(this.#handleResponse);
-  }
-
-  getUserData() {
-    return fetch(this.#baseUrl + '/users/me', {
-      method: 'GET',
-      credentials: 'include',
-      headers: this.#headers,
-    }).then(this.#handleResponse);
-  }
-
-  saveUserData(inputData) {
-    return fetch(this.#baseUrl + '/users/me', {
-      method: 'PATCH',
-      credentials: 'include',
-      headers: this.#headers,
-      body: JSON.stringify(inputData),
-    }).then(this.#handleResponse);
-  }
-
-  addNewCard(cardData) {
-    return fetch(this.#baseUrl + '/cards', {
+  register({ name, email, password }) {
+    return fetch(this.#baseUrl + '/signup', {
       method: 'POST',
       credentials: 'include',
       headers: this.#headers,
-      body: JSON.stringify(cardData),
+      body: JSON.stringify({ name, email, password }),
+    }).then(this.#handleResponse);
+    // })
+    // .then((res) => {
+    // console.log(res.json());
+    // res.json();
+    // })
+    // .then((res) => console.log(res))
+    // .catch((err) => console.log(err));
+
+    // .catch((err) => console.log(err));
+  }
+
+  login({ email, password }) {
+    return fetch(this.#baseUrl + '/signin', {
+      method: 'POST',
+      credentials: 'include',
+      headers: this.#headers,
+      body: JSON.stringify({ email, password }),
     }).then(this.#handleResponse);
   }
 
-  deleteCard(cardId) {
-    return fetch(this.#baseUrl + `/cards/${cardId}`, {
-      method: 'DELETE',
+  logout() {
+    return fetch(this.#baseUrl + 'signout', {
+      method: 'POST',
       credentials: 'include',
       headers: this.#headers,
     }).then(this.#handleResponse);
   }
 
-  changeLikeCardStatus(cardId, like) {
-    return fetch(this.#baseUrl + `/cards/${cardId}/likes`, {
-      method: like ? 'PUT' : 'DELETE',
+  getProfile() {
+    return fetch(this.#baseUrl + '/users/me', {
+      method: 'GET',
       credentials: 'include',
       headers: this.#headers,
     }).then(this.#handleResponse);
   }
 
-  likeCard(cardId) {
-    return fetch(this.#baseUrl + `/cards/${cardId}/likes`, {
-      method: 'PUT',
-      credentials: 'include',
-      headers: this.#headers,
-    }).then(this.#handleResponse);
-  }
-
-  dislikeCard(cardId) {
-    return fetch(this.#baseUrl + `/cards/${cardId}/likes`, {
-      method: 'DELETE',
-      credentials: 'include',
-      headers: this.#headers,
-    }).then(this.#handleResponse);
-  }
-
-  updateAvatar(inputLink) {
-    return fetch(this.#baseUrl + `/users/me/avatar`, {
+  updateProfile({ name, email }) {
+    return fetch(this.#baseUrl + '/users/me', {
       method: 'PATCH',
       credentials: 'include',
       headers: this.#headers,
-      body: JSON.stringify(inputLink),
+      body: JSON.stringify({ name, email }),
+    }).then(this.#handleResponse);
+  }
+
+  getSavedMovies() {
+    return fetch(this.#baseUrl + '/movies', {
+      method: 'GET',
+      credentials: 'include',
+      headers: this.#headers,
+    }).then(this.#handleResponse);
+  }
+
+  saveMovie(movie, userId) {
+    return fetch(this.#baseUrl + '/movies', {
+      method: 'POST',
+      credentials: 'include',
+      headers: this.#headers,
+      body: JSON.stringify({
+        country: movie.country || ' ',
+        director: movie.director || ' ',
+        duration: movie.duration || 0,
+        year: movie.year || ' ',
+        description: movie.description || ' ',
+        image: 'https://api.nomoreparties.co' + movie.image.url,
+        trailerLink: movie.trailerLink,
+        thumbnail:
+          'https://api.nomoreparties.co' + movie.image.formats.thumbnail.url,
+        movieId: movie.id,
+        nameRU: movie.nameRU || ' ',
+        nameEN: movie.nameEN || ' ',
+        owner: userId,
+      }),
+    }).then(this.#handleResponse);
+  }
+
+  deleteMovie(movieId) {
+    return fetch(this.#baseUrl + `/movies/${movieId}`, {
+      method: 'DELETE',
+      credentials: 'include',
+      headers: this.#headers,
     }).then(this.#handleResponse);
   }
 }
 
-const api = new Api({
-  baseUrl: serverUrl,
+const mainApi = new MainApi({
+  baseUrl: BASE_URL,
   headers: {
-    // authorization: token,
+    // Accept: 'application/json',
     'Content-Type': 'application/json',
   },
 });
 
-export default api;
+export default mainApi;

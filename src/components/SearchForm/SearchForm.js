@@ -1,7 +1,9 @@
 import { React, useState, useEffect } from 'react';
+// import { useLocation } from 'react-router-dom';
 import './SearchForm.css';
 
 const SearchForm = ({ handleSearch, searchProp }) => {
+  // let location = useLocation();
   const [search, setSearch] = useState(searchProp);
   const [error, setError] = useState('');
 
@@ -16,15 +18,20 @@ const SearchForm = ({ handleSearch, searchProp }) => {
     } else {
       setError('');
       handleSearch(search);
-      localStorage.setItem('search', JSON.stringify(search));
     }
   };
 
   const handleSearchInputChange = (evt) => {
+    // if (location.pathname === '/saved-movies') {
+    //   handleSearch({ query: evt.target.value });
+    // }
     setSearch({ ...search, query: evt.target.value });
   };
 
   const handleChangeCheckbox = (evt) => {
+    // if (location.pathname === '/saved-movies') {
+    //   handleSearch({ isShort: evt.target.value });
+    // }
     setSearch({ ...search, isShort: evt.target.checked });
   };
 
@@ -33,7 +40,7 @@ const SearchForm = ({ handleSearch, searchProp }) => {
       <div className="search-form__container">
         <form className="search-form__form" onSubmit={handleSubmit}>
           <input
-            required
+            // required
             className="search-form__input"
             id="search-form-input"
             type="text"

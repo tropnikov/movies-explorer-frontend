@@ -1,52 +1,95 @@
-import React from 'react';
-import './Register.css';
-import Logo from '../Logo/Logo';
+import { React, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useFormWithValidation } from '../../utils/useFormWithValidation';
+import Logo from '../Logo/Logo';
+import './Register.css';
 
-const Register = () => {
+const Register = ({ handleRegister, error, setError }) => {
+  const { values, handleChange, errors, isValid } = useFormWithValidation();
+  console.log(errors);
+  const showNonEmptyErrors = () => {
+    for (const key in errors) {
+      if (errors[key]) return errors[key];
+    }
+  };
+
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    handleRegister(values);
+  };
+
+  useEffect(() => {
+    setError('');
+  }, [values]);
+
   return (
     <section className="register">
       <Link to="/" className="register__logo">
         <Logo />
       </Link>
-      <form className="register-form">
+      <form className="register-form" onSubmit={handleSubmit}>
         <h1 className="register-form__title">Добро пожаловать!</h1>
-        <label className="register-form__label" htmlFor="register-name">
-          Имя
-        </label>
-        <input
-          className="register-form__input"
-          minLength="2"
-          id="register-name"
-          name="register-name"
-          type="text"
-          required
-        />
-        <label className="register-form__label" htmlFor="register-email">
-          E-mail
-        </label>
-        <input
-          className="register-form__input"
-          id="register-email"
-          name="register-email"
-          type="email"
-          required
-        />
-        <label className="register-form__label" htmlFor="register-password">
-          Пароль
-        </label>
-        <input
-          className="register-form__input"
-          minLength="8"
-          id="register-password"
-          name="register-password"
-          type="password"
-          required
-        />
-        <span className="register-form__error-text">
-          Что-то пошло не так...
-        </span>
-        <button className="register-form__button link" type="submit">
+        <div className="register-form__wrap">
+          <label className="register-form__label" htmlFor="register-name">
+            Имя
+          </label>
+          <input
+            className="register-form__input"
+            minLength="2"
+            maxLength="30"
+            id="register-name"
+            name="name"
+            type="text"
+            pattern="[a-zA-Zа-яА-Я -]{2,20}"
+            onChange={handleChange}
+            value={values.name || ''}
+            required
+          />
+          <label className="register-form__label" htmlFor="register-email">
+            E-mail
+          </label>
+          <input
+            className="register-form__input"
+            id="register-email"
+            name="email"
+            type="email"
+            onChange={handleChange}
+            value={values.email || ''}
+            required
+          />
+          <label className="register-form__label" htmlFor="register-password">
+            Пароль
+          </label>
+          <input
+            className="register-form__input"
+            minLength="2"
+            id="register-password"
+            name="password"
+            type="password"
+            onChange={handleChange}
+            value={values.password || ''}
+            required
+          />
+          {Object.values(errors).length > 0 && (
+            <span className="register-form__error-text">
+              {showNonEmptyErrors()}
+            </span>
+          )}
+          {error && (
+            <span className="register-form__error-text register-form__error-text_server">
+              {error}
+            </span>
+          )}
+        </div>
+        <button
+          className={
+            isValid
+              ? 'register-form__button link'
+              : 'register-form__button register-form__button_disabled'
+          }
+          type="submit"
+          disabled={!isValid}
+        >
           Зарегистрироваться
         </button>
         <span className="register-form__text">
