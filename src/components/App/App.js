@@ -17,10 +17,10 @@ import './App.css';
 import moviesApi from '../../utils/MoviesApi';
 import filterMovies from '../../utils/filterMovies';
 import Preloader from '../Movies/Preloader/Preloader';
+import { getErrorMessage } from '../../utils/getErrorMessage';
 
 const App = () => {
   let navigate = useNavigate();
-  // let location = useLocation();
   const [isMenuOpened, setMenuOpened] = useState(false);
 
   const [savedMovies, setSavedMovies] = useState([]);
@@ -33,8 +33,6 @@ const App = () => {
   const [currentUser, setCurrentUser] = useState({});
   const [search, setSearch] = useState({ query: '', isShort: false });
   const [searchedMovies, setSearchedMovies] = useState([]);
-  // const [filteredSavedMovies, setFilteredSavedMovies] = useState([])
-  // const [isValidatingToken, setIsValidatingToken] = useState(false);
 
   const toggleMenu = () => {
     setMenuOpened(!isMenuOpened);
@@ -79,24 +77,13 @@ const App = () => {
   useEffect(() => {
     if (movies.length && search.query) {
       const filteredMovies = filterMovies(movies, search);
-      //   movies.filter((item) => {
-      //   return (
-      //     (item?.nameRU
-      //       ?.toLowerCase()
-      //       .includes(search?.query?.toLowerCase().trim()) ||
-      //       item?.nameEN
-      //         ?.toLowerCase()
-      //         .includes(search?.query?.toLowerCase().trim())) &&
-      //     (search.isShort ? item.duration <= 40 : true)
-      //   );
-      // });
       setSearchedMovies(filteredMovies);
       localStorage.setItem('searchedMovies', JSON.stringify(filteredMovies));
       if (filteredMovies.length === 0) {
         setError('Ничего не найдено');
       } else setError('');
     }
-  }, [movies, search.query]);
+  }, [movies, search.query, search.isShort]);
 
   useEffect(() => {
     if (localStorage.getItem('searchedMovies')) {
@@ -128,28 +115,6 @@ const App = () => {
     localStorage.setItem('search', JSON.stringify(req));
   };
 
-  // const searchInSavedMovies = useCallback((req) => {
-  //   if (savedMovies.length && req.query) {
-  //     const filteredMovies = filterMovies(savedMovies, req);
-  //     //   movies.filter((item) => {
-  //     //   return (
-  //     //     (item?.nameRU
-  //     //       ?.toLowerCase()
-  //     //       .includes(search?.query?.toLowerCase().trim()) ||
-  //     //       item?.nameEN
-  //     //         ?.toLowerCase()
-  //     //         .includes(search?.query?.toLowerCase().trim())) &&
-  //     //     (search.isShort ? item.duration <= 40 : true)
-  //     //   );
-  //     // });
-  //     setFilteredSavedMovies(filteredMovies);
-  //     // localStorage.setItem('searchedMovies', JSON.stringify(filteredMovies));
-  //     if (filteredMovies.length === 0) {
-  //       setError('Ничего не найдено');
-  //     } else setError('');
-  //   }
-  // }, [])
-
   // user
   const handleRegister = (values) => {
     mainApi
@@ -160,7 +125,7 @@ const App = () => {
         navigate('/movies');
       })
       .catch((err) => {
-        setError(err);
+        setError(getErrorMessage(err));
         console.log(err);
       });
   };
@@ -174,7 +139,7 @@ const App = () => {
         navigate('/movies');
       })
       .catch((err) => {
-        setError(err);
+        setError(getErrorMessage(err));
         console.log(err);
       });
   };
@@ -188,7 +153,7 @@ const App = () => {
         setTimeout(() => setSuccess(''), 2000);
       })
       .catch((err) => {
-        setError(err);
+        setError(getErrorMessage(err));
         setSuccess('');
         console.log(err);
       });
@@ -204,7 +169,7 @@ const App = () => {
         navigate('/');
       })
       .catch((err) => {
-        setError(err);
+        setError(getErrorMessage(err));
         console.log(err);
       });
   };
@@ -263,7 +228,6 @@ const App = () => {
                     setError={setError}
                     error={error}
                     success={success}
-                    // setSuccess={}
                   />
                 </ProtectedRoute>
               }

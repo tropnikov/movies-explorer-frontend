@@ -14,8 +14,6 @@ const Profile = ({
     useFormWithValidation();
 
   const { name, email } = useContext(CurrentUserContext);
-  console.log(name, email);
-  console.log(useContext(CurrentUserContext));
 
   const showNonEmptyErrors = () => {
     for (const key in errors) {

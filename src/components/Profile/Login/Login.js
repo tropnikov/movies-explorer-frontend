@@ -6,7 +6,6 @@ import './Login.css';
 
 const Login = ({ handleLogin, error, setError }) => {
   const { values, handleChange, errors, isValid } = useFormWithValidation();
-  console.log(errors);
   const showNonEmptyErrors = () => {
     for (const key in errors) {
       if (errors[key]) return errors[key];
@@ -39,7 +38,7 @@ const Login = ({ handleLogin, error, setError }) => {
             name="email"
             type="email"
             onChange={handleChange}
-            value={values.email}
+            value={values.email || ''}
             required
           />
           <label className="login-form__label" htmlFor="login-password">
@@ -52,7 +51,7 @@ const Login = ({ handleLogin, error, setError }) => {
             name="password"
             type="password"
             onChange={handleChange}
-            value={values.password}
+            value={values.password || ''}
             required
           />
           {Object.values(errors).length > 0 && (
@@ -66,7 +65,6 @@ const Login = ({ handleLogin, error, setError }) => {
             </span>
           )}
         </div>
-        {/* <span className="login-form__error-text">Что-то пошло не так...</span> */}
         <button
           className={
             isValid

@@ -1,11 +1,10 @@
 import { React, useEffect, useState } from 'react';
 
 import mainApi from '../../utils/MainApi';
-// import moviesApi from '../../utils/MoviesApi';
+import './Movies.css';
 import MoviesCardList from './MoviesCardList/MoviesCardList';
 import Preloader from './Preloader/Preloader';
 import SearchForm from './SearchForm/SearchForm';
-import './Movies.css';
 
 const Movies = ({
   searchMovies,
@@ -17,10 +16,6 @@ const Movies = ({
   setSearch,
   error,
 }) => {
-  // const [searchedMovies, setSearchedMovies] = useState([]);
-  // const [search, setSearch] = useState({ query: '', isShort: false });
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [error, setError] = useState('');
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [extraMovies, setExtraMovies] = useState(null);
   const [limitMovies, setLimitMovies] = useState(null);
@@ -88,10 +83,10 @@ const Movies = ({
   useEffect(() => {
     const newShownMovies = searchedMovies.slice(0, limitMovies);
     setShownMovies(newShownMovies);
-    if (shownMovies.length < searchedMovies.length) {
+    if (newShownMovies.length < searchedMovies.length) {
       setIsShowMoreButtonShown(true);
     } else setIsShowMoreButtonShown(false);
-  }, [limitMovies, searchedMovies, isShowMoreButtonShown]);
+  }, [limitMovies, searchedMovies]);
 
   const handleShowMore = () => {
     setLimitMovies((prevValue) => (prevValue += extraMovies));

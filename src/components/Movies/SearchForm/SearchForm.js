@@ -1,38 +1,27 @@
 import { React, useState } from 'react';
-// import { useLocation } from 'react-router-dom';
 import './SearchForm.css';
 
 const SearchForm = ({ handleSearch, search, setSearch }) => {
-  // let location = useLocation();
-  // const [search, setSearch] = useState(searchProp);
   const [error, setError] = useState('');
-
-  // useEffect(() => {
-  //   setSearch(searchProp);
-  // }, [searchProp]);
+  const [innerSearch, setInnerSearch] = useState(search);
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    if (!search.query) {
+    if (!innerSearch.query) {
       setError('Нужно ввести ключевое слово');
     } else {
       setError('');
-      handleSearch(search);
+      setSearch(innerSearch);
+      handleSearch(innerSearch);
     }
   };
 
   const handleSearchInputChange = (evt) => {
-    // if (location.pathname === '/saved-movies') {
-    //   handleSearch({ query: evt.target.value });
-    // }
-    setSearch({ ...search, query: evt.target.value });
+    setInnerSearch({ ...innerSearch, query: evt.target.value });
   };
 
   const handleChangeCheckbox = (evt) => {
-    // if (location.pathname === '/saved-movies') {
-    //   handleSearch({ isShort: evt.target.value });
-    // }
-    setSearch({ ...search, isShort: evt.target.checked });
+    setInnerSearch({ ...innerSearch, isShort: evt.target.checked });
   };
 
   return (
@@ -47,7 +36,7 @@ const SearchForm = ({ handleSearch, search, setSearch }) => {
             name="search-form-input"
             minLength="1"
             onChange={handleSearchInputChange}
-            value={search.query}
+            value={innerSearch.query}
             placeholder="Фильм или Movie"
           />
           <button type="submit" className="search-form__button link_button">
@@ -61,7 +50,7 @@ const SearchForm = ({ handleSearch, search, setSearch }) => {
           type="checkbox"
           className="search-from__toggle"
           onChange={handleChangeCheckbox}
-          checked={search.isShort}
+          checked={innerSearch.isShort}
         />
         <p className="search-form__toggle-text">Короткометражки</p>
       </div>

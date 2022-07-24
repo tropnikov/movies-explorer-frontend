@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { CurrentUserContext } from '../../../context/CurrentUserContext';
 import './MoviesCard.css';
-// import shot from '../../images/movie-pic-sample.jpg';
 
 const MoviesCard = ({ movie, savedMovies, onDelete, onSave }) => {
   let location = useLocation();
@@ -74,17 +73,6 @@ const MoviesCard = ({ movie, savedMovies, onDelete, onSave }) => {
               onClick={handleDelete}
             ></button>
           )}
-
-          {/* <button
-            className={
-              saved
-                ? 'icon movie-card__unsave link_button'
-                : 'icon movie-card__save link_button'
-            }
-            onClick={handleSaveDeleteAction}
-          ></button> */}
-          {/* <button className="icon movie-card__unsave link_button"></button> */}
-          {/* <button className="icon movie-card__delete link_button"></button> */}
         </div>
         <p className="movie-card__subtitle">{formatDuration(movie.duration)}</p>
       </div>

@@ -27,13 +27,6 @@
   font-weight: 400;
   margin: 0 0 10px 0;
 }
-/* input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active,
-input:-internal-autofill-selected {
-  color: #ffffff !important;
-} */
 
 .register-form__input {
   margin: 0 0 20px 0;
@@ -51,10 +44,6 @@ input:-internal-autofill-selected {
   -webkit-text-fill-color: #ffffff;
   color: #ffffff;
 }
-
-/* .register-form__input:invalid input:-internal-autofill-selected {
-  color: #ee3465;
-} */
 
 .register-form__input:focus {
   font-weight: 500;
@@ -82,13 +71,13 @@ input:-internal-autofill-selected {
   line-height: 12px;
   position: absolute;
   width: 100%;
-  bottom: -20px;
+  bottom: -40px;
   left: 0;
-  /* margin: 0 0 69px 0; */
 }
 
 .register-form__error-text_server {
   font-size: 14px;
+  line-height: 18px;
   text-align: center;
 }
 

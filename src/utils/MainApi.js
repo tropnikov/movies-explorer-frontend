@@ -10,13 +10,10 @@ class MainApi {
   }
 
   #handleResponse = (response) => {
-    // console.log(response);
-    // response.json();
     return response.ok
       ? response.json()
       : Promise.reject(
-          `Ошибка: ${response.status}
-          ${response.statusText}`
+          `Ошибка ${response.status}: ` + `${response.statusText}`
         );
   };
 
@@ -27,15 +24,6 @@ class MainApi {
       headers: this.#headers,
       body: JSON.stringify({ name, email, password }),
     }).then(this.#handleResponse);
-    // })
-    // .then((res) => {
-    // console.log(res.json());
-    // res.json();
-    // })
-    // .then((res) => console.log(res))
-    // .catch((err) => console.log(err));
-
-    // .catch((err) => console.log(err));
   }
 
   login({ email, password }) {
@@ -98,7 +86,6 @@ class MainApi {
         movieId: movie.id,
         nameRU: movie.nameRU || ' ',
         nameEN: movie.nameEN || ' ',
-        // owner: userId,
       }),
     }).then(this.#handleResponse);
   }
@@ -115,7 +102,6 @@ class MainApi {
 const mainApi = new MainApi({
   baseUrl: BASE_URL,
   headers: {
-    // Accept: 'application/json',
     'Content-Type': 'application/json',
   },
 });

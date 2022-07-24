@@ -6,7 +6,6 @@ import './Register.css';
 
 const Register = ({ handleRegister, error, setError }) => {
   const { values, handleChange, errors, isValid } = useFormWithValidation();
-  console.log(errors);
   const showNonEmptyErrors = () => {
     for (const key in errors) {
       if (errors[key]) return errors[key];

@@ -12,7 +12,6 @@
 }
 
 .movie-card__content {
-  /* box-sizing: border-box; */
   padding: 14px 12px;
   display: flex;
   justify-content: space-between;
