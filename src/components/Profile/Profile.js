@@ -9,6 +9,7 @@ const Profile = ({
   error,
   setError,
   success,
+  isLoading,
 }) => {
   const { values, handleChange, errors, isValid, setValues } =
     useFormWithValidation();
@@ -92,7 +93,7 @@ const Profile = ({
               : 'profile__button profile__button-edit link'
           }
           disabled={
-            !isValid || (values.name === name && values.email === email)
+            !isValid || (values.name === name && values.email === email) || isLoading
           }
         >
           Редактировать

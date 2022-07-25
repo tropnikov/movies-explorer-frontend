@@ -16,7 +16,7 @@ const FooterView = () => {
           <li>
             <a
               className="footer__link link"
-              href="src/components/Layout/Footer/Footer"
+              href="https://practicum.yandex.ru/"
               target="_blank"
               rel="noreferrer"
             >
@@ -26,7 +26,7 @@ const FooterView = () => {
           <li>
             <a
               className="footer__link link"
-              href="src/components/Layout/Footer/Footer"
+              href="https://github.com/tropnikov/"
               target="_blank"
               rel="noreferrer"
             >
@@ -36,7 +36,7 @@ const FooterView = () => {
           <li>
             <a
               className="footer__link link"
-              href="src/components/Layout/Footer/Footer"
+              href="https://www.linkedin.com/in/maksim-tropnikov/"
               target="_blank"
               rel="noreferrer"
             >

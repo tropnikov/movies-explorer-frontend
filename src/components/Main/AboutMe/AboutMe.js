@@ -24,7 +24,7 @@ const AboutMe = () => {
           <div>
             <a
               className="about__link link"
-              href="src/components/Main/AboutMe/AboutMe"
+              href="https://www.linkedin.com/in/maksim-tropnikov/"
               target="_blank"
               rel="noreferrer"
             >
@@ -32,7 +32,7 @@ const AboutMe = () => {
             </a>
             <a
               className="about__link link"
-              href="src/components/Main/AboutMe/AboutMe"
+              href="https://github.com/tropnikov/"
               target="_blank"
               rel="noreferrer"
             >

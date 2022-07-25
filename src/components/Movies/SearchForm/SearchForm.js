@@ -1,7 +1,7 @@
 import { React, useState } from 'react';
 import './SearchForm.css';
 
-const SearchForm = ({ handleSearch, search, setSearch }) => {
+const SearchForm = ({handleSearch, search, setSearch}) => {
   const [error, setError] = useState('');
   const [innerSearch, setInnerSearch] = useState(search);
 
@@ -17,11 +17,12 @@ const SearchForm = ({ handleSearch, search, setSearch }) => {
   };
 
   const handleSearchInputChange = (evt) => {
-    setInnerSearch({ ...innerSearch, query: evt.target.value });
+    setInnerSearch({...innerSearch, query: evt.target.value});
   };
 
   const handleChangeCheckbox = (evt) => {
-    setInnerSearch({ ...innerSearch, isShort: evt.target.checked });
+    setInnerSearch({...innerSearch, isShort: evt.target.checked});
+    setSearch({...innerSearch, isShort: evt.target.checked});
   };
 
   return (
@@ -29,7 +30,6 @@ const SearchForm = ({ handleSearch, search, setSearch }) => {
       <div className="search-form__container">
         <form className="search-form__form" onSubmit={handleSubmit}>
           <input
-            // required
             className="search-form__input"
             id="search-form-input"
             type="text"

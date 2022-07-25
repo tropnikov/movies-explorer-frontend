@@ -4,7 +4,7 @@ import { useFormWithValidation } from '../../../utils/useFormWithValidation';
 import Logo from '../../Layout/Logo/Logo';
 import './Login.css';
 
-const Login = ({ handleLogin, error, setError }) => {
+const Login = ({ handleLogin, error, setError, isLoading }) => {
   const { values, handleChange, errors, isValid } = useFormWithValidation();
   const showNonEmptyErrors = () => {
     for (const key in errors) {
@@ -67,12 +67,12 @@ const Login = ({ handleLogin, error, setError }) => {
         </div>
         <button
           className={
-            isValid
+            (isValid && !error)
               ? 'login-form__button link_button'
               : 'login-form__button login-form__button_disabled'
           }
           type="submit"
-          disabled={!isValid}
+          disabled={!isValid || isLoading || error}
         >
           Войти
         </button>

@@ -4,7 +4,7 @@ import { useFormWithValidation } from '../../../utils/useFormWithValidation';
 import Logo from '../../Layout/Logo/Logo';
 import './Register.css';
 
-const Register = ({ handleRegister, error, setError }) => {
+const Register = ({ handleRegister, error, setError, isLoading }) => {
   const { values, handleChange, errors, isValid } = useFormWithValidation();
   const showNonEmptyErrors = () => {
     for (const key in errors) {
@@ -82,12 +82,12 @@ const Register = ({ handleRegister, error, setError }) => {
         </div>
         <button
           className={
-            isValid
+            (isValid && !error)
               ? 'register-form__button link'
               : 'register-form__button register-form__button_disabled'
           }
           type="submit"
-          disabled={!isValid}
+          disabled={!isValid || isLoading || error}
         >
           Зарегистрироваться
         </button>

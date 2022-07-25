@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import SearchForm from '../SearchForm/SearchForm';
 import mainApi from '../../../utils/MainApi';
 import './SavedMovies.css';
 import filterMovies from '../../../utils/filterMovies';
 
-const SavedMovies = ({ movies, setSavedMovies }) => {
-  const [search, setSearch] = useState({ query: '', isShort: false });
+const SavedMovies = ({movies, setSavedMovies}) => {
+  const [search, setSearch] = useState({query: '', isShort: false});
   const [filteredMovies, setFilteredMovies] = useState(movies);
   const [error, setError] = useState('');
 
@@ -26,7 +26,7 @@ const SavedMovies = ({ movies, setSavedMovies }) => {
   };
 
   const searchInSavedMovies = (search) => {
-    if (movies.length && search.query.length !== 0) {
+    if (movies.length) {
       const filteredMovies = filterMovies(movies, search);
       setFilteredMovies(filteredMovies);
       if (filteredMovies.length === 0) {
@@ -35,6 +35,17 @@ const SavedMovies = ({ movies, setSavedMovies }) => {
     }
     setSearch(search);
   };
+
+
+  useEffect(() => {
+    if (movies.length) {
+      const filteredMovies = filterMovies(movies, search);
+      setFilteredMovies(filteredMovies);
+      if (filteredMovies.length === 0) {
+        setError('Ничего не найдено');
+      } else setError('');
+    }
+  }, [movies, search.query, search.isShort]);
 
   return (
     <section className="saved-movies">

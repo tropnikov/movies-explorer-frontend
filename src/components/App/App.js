@@ -31,7 +31,7 @@ const App = () => {
   const [success, setSuccess] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
-  const [search, setSearch] = useState({ query: '', isShort: false });
+  const [search, setSearch] = useState({query: '', isShort: false});
   const [searchedMovies, setSearchedMovies] = useState([]);
 
   const toggleMenu = () => {
@@ -75,7 +75,7 @@ const App = () => {
   }, [isLoggedIn]);
 
   useEffect(() => {
-    if (movies.length && search.query) {
+    if (movies.length) {
       const filteredMovies = filterMovies(movies, search);
       setSearchedMovies(filteredMovies);
       localStorage.setItem('searchedMovies', JSON.stringify(filteredMovies));
@@ -96,27 +96,31 @@ const App = () => {
 
   // movies
   const searchMovies = (req) => {
-    setIsLoading(true);
-    moviesApi
-      .getMovies()
-      .then((res) => {
-        setMovies(res);
-      })
-      .catch((err) => {
-        setError(
-          'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз'
-        );
-        console.log(err);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    if (!movies.length) {
+      setIsLoading(true);
+      moviesApi
+        .getMovies()
+        .then((res) => {
+          setMovies(res);
+        })
+        .catch((err) => {
+          setError(
+            'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз'
+          );
+          console.log(err);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+
+    }
     setSearch(req);
     localStorage.setItem('search', JSON.stringify(req));
   };
 
   // user
   const handleRegister = (values) => {
+    setIsLoading(true)
     mainApi
       .register(values)
       .then((res) => {
@@ -127,10 +131,11 @@ const App = () => {
       .catch((err) => {
         setError(getErrorMessage(err));
         console.log(err);
-      });
+      }).finally(() => setIsLoading(false));
   };
 
   const handleLogin = (values) => {
+    setIsLoading(true);
     mainApi
       .login(values)
       .then((res) => {
@@ -141,10 +146,11 @@ const App = () => {
       .catch((err) => {
         setError(getErrorMessage(err));
         console.log(err);
-      });
+      }).finally(() => setIsLoading(false));
   };
 
   const handleEditProfile = (values) => {
+    setIsLoading(true)
     mainApi
       .updateProfile(values)
       .then((res) => {
@@ -156,14 +162,13 @@ const App = () => {
         setError(getErrorMessage(err));
         setSuccess('');
         console.log(err);
-      });
+      }).finally(() => setIsLoading(false));
   };
 
   const handleLogout = () => {
     mainApi
       .logout()
       .then(() => {
-        // setCurrentUser(res);
         setIsLoggedIn(false);
         localStorage.clear();
         navigate('/');
@@ -177,18 +182,18 @@ const App = () => {
   if (globalLoading)
     return (
       <div className="preloader__wrap">
-        <Preloader />
+        <Preloader/>
       </div>
     );
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="App">
-        <Header isLoggedIn={isLoggedIn} handleShowMenu={toggleMenu} />
+        <Header isLoggedIn={isLoggedIn} handleShowMenu={toggleMenu}/>
         <main className="page-content">
-          <Menu handleOpenMenu={toggleMenu} isMenuOpened={isMenuOpened} />
+          <Menu handleOpenMenu={toggleMenu} isMenuOpened={isMenuOpened}/>
           <Routes>
-            <Route path="/" element={<Main />} />
+            <Route path="/" element={<Main/>}/>
 
             <Route
               path="/movies/*"
@@ -223,6 +228,7 @@ const App = () => {
               element={
                 <ProtectedRoute isLoggedIn={isLoggedIn}>
                   <Profile
+                    isLoading={isLoading}
                     handleEditProfile={handleEditProfile}
                     handleLogout={handleLogout}
                     setError={setError}
@@ -237,6 +243,7 @@ const App = () => {
               path="/signup"
               element={
                 <Register
+                  isLoading={isLoading}
                   handleRegister={handleRegister}
                   error={error}
                   setError={setError}
@@ -248,17 +255,18 @@ const App = () => {
               path="/signin"
               element={
                 <Login
+                  isLoading={isLoading}
                   handleLogin={handleLogin}
                   error={error}
                   setError={setError}
                 />
               }
             />
-            <Route path="/*" element={<NotFound />} />
+            <Route path="/*" element={<NotFound/>}/>
           </Routes>
         </main>
 
-        <Footer />
+        <Footer/>
       </div>
     </CurrentUserContext.Provider>
   );

@@ -31,5 +31,8 @@ a {
 
 .preloader__wrap {
   height: 100vh;
-  width: 100vw;
+  width: 100%;
+}
+.preloader__wrap .preloader {
+  padding: 0;
 }
