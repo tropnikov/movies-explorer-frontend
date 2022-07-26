@@ -28,3 +28,11 @@ a {
 .link_button:hover {
   opacity: 0.8;
 }
+
+.preloader__wrap {
+  height: 100vh;
+  width: 100%;
+}
+.preloader__wrap .preloader {
+  padding: 0;
+}
