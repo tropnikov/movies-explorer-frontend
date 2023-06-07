@@ -1,4 +1,4 @@
-const BASE_URL = 'https://api.tma-beatfilms.nomoreparties.sbs';
+const BASE_URL = 'https://api.tma.beatfilms.nomoredomains.rocks';
 
 class MainApi {
   #baseUrl;
