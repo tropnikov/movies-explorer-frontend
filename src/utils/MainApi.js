@@ -1,4 +1,4 @@
-const BASE_URL = 'https://api.tma.beatfilms.nomoredomains.rocks';
+const BASE_URL = 'https://api.movies-explorer.tropnikov.dev';
 
 class MainApi {
   #baseUrl;
